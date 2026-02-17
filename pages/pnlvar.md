@@ -26,9 +26,61 @@ ORDER BY asofdate
     y_fmt="num0"
 %}
     {% line y="Ytd_pnL" /%}
-    {% line y="VAR" /%}
+    {% line y="VAR" options={color="#00CC66"} /%}
     {% bar y="daily_pnl" options={color="#e63946" opacity=0.8} /%}
+    {% reference_point 
+        x="2025-06-24" 
+        y=3500000 
+        label="Largest DoD Gain" 
+        color="black"
+        label_options={
+            variant="callout"
+            position="top"
+            color="black"
+        }
+        symbol_options={
+            color="black"
+        }
+    /%}
+    {% reference_point 
+        x="2025-10-06" 
+        y=-2741880 
+        label="Worst DoD Loss" 
+        color="#e63946"
+        label_options={
+            variant="callout"
+            position="left"
+        }
+    /%}
+    {% reference_point 
+        x="2026-01-02" 
+        y=-1427444 
+        label="DoD Loss" 
+        color="#e63946"
+        label_options={
+            variant="callout"
+            position="left"
+        }
+    /%}
 {% /combo_chart %}
+
+{% callout type="info" title="Largest DoD Gain: Jun 24, 2025" %}
+The largest single-day gain was **$1.7M** — bearish weather ample & ample near-term supply of LNG into Europe allowed desk to take advantage of customer flows & TTF seasonal timespreads.
+{% /callout %}
+
+{% callout type="error" title="Worst DoD Loss: Oct 6, 2025" %}
+The largest single-day loss was **-$2.7M** — a significant drop in wind forecast resulted in front weeks increasing by c. +£20/MWh in the UK & +€25/MWh.
+
+VAR remains high as desk close out and re-enter into net energy long positions resulting in further losses.
+
+Approx. **-$7M** across the two weeks.
+{% /callout %}
+
+{% callout type="error" title="DoD Loss: Jan 2, 2026" %}
+Further weather based trading losses as the prompt gains on cold temperatures & low wind as potential dunkelfluate looms (dark lull with low wind & solar).
+
+As the desk nears stop limits we see VAR reducing as positions are closed out and limited risk is taken.
+{% /callout %}
 
 {% combo_chart
     data="pnl_data"
