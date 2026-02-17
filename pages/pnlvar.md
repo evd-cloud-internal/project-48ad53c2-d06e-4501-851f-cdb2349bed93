@@ -77,9 +77,9 @@ Approx. **-$7M** across the two weeks.
 {% /callout %}
 
 {% callout type="error" title="DoD Loss: Jan 2, 2026" %}
-Further weather based trading losses as the prompt gains on cold temperatures & low wind as potential dunkelfluate looms (dark lull with low wind & solar).
+Additional weather-driven losses recorded as the prompt strengthened on colder temperatures and low wind output, with the risk of a potential Dunkelflaute (a period of weak wind and solar generation).
 
-As the desk nears stop limits we see VAR reducing as positions are closed out and limited risk is taken.
+As the desk approaches stop limits, VAR is declining as positions are reduced and risk-taking becomes more constrained.
 {% /callout %}
 
 {% combo_chart
