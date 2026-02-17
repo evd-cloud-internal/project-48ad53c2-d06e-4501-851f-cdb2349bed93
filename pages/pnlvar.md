@@ -8,26 +8,46 @@ type: page
 
 ```sql pnl_data
 SELECT 
-    addDays(toDate32('1899-12-30'), toInt32(asofdate)) as date,
-    "Power Dod YTD" as cumulative_pnl,
-    DoD as dod_pnl,
-    "VAR+1" as var_plus_1
-FROM var_vs_dod
-WHERE DoD != 0 OR "Power Dod YTD" != 0 OR "VAR+1" != 0
+    toString(asofdate) as date,
+    "Power Dod YTD" as Ytd_pnL,
+    DoD as daily_pnl,
+    "VAR+1" as VAR
+FROM var_vs_dodv2
+WHERE "Power Dod YTD" != 0
 ORDER BY asofdate
 ```
 
 {% combo_chart
     data="pnl_data"
     x="date"
+    x_sort="data"
     title="VAR vs DoD PnL"
-    subtitle="Cumulative PnL & VAR+1 (left axis) vs Daily DoD (right axis)"
+    subtitle="YTD PnL, VAR & DoD PnL"
     y_fmt="num0"
-    y2_fmt="num0"
-    y2_axis_options={title="DoD PnL"}
-    y_axis_options={title="Cumulative PnL / VAR+1"}
 %}
-    {% line y="cumulative_pnl" /%}
-    {% line y="var_plus_1" /%}
-    {% bar y="dod_pnl" axis="y2" options={opacity=0.4} /%}
+    {% line y="Ytd_pnL" /%}
+    {% line y="VAR" /%}
+    {% bar y="daily_pnl" options={color="#e63946" opacity=0.8} /%}
+{% /combo_chart %}
+
+{% combo_chart
+    data="pnl_data"
+    x="date"
+    x_sort="data"
+    title="YTD PnL & VAR"
+    y_fmt="num0"
+%}
+    {% line y="Ytd_pnL" /%}
+    {% line y="VAR" /%}
+{% /combo_chart %}
+
+{% combo_chart
+    data="pnl_data"
+    x="date"
+    x_sort="data"
+    title="DoD PnL & VAR"
+    y_fmt="num0"
+%}
+    {% bar y="daily_pnl" options={opacity=0.8} /%}
+    {% line y="VAR" /%}
 {% /combo_chart %}
