@@ -28,7 +28,21 @@ ORDER BY asofdate
     {% line y="Ytd_pnL" /%}
     {% line y="VAR" /%}
     {% bar y="daily_pnl" options={color="#e63946" opacity=0.8} /%}
+    {% reference_point 
+        x="2025-10-06" 
+        y=-2741880 
+        label="Worst DoD Loss" 
+        color="#e63946"
+        label_options={
+            variant="callout"
+            position="left"
+        }
+    /%}
 {% /combo_chart %}
+
+{% callout type="error" title="Worst DoD Loss: Oct 6, 2025" %}
+The largest single-day loss was **-$2,741,880** on October 6, 2025 — significantly exceeding the VAR estimate for that day.
+{% /callout %}
 
 {% combo_chart
     data="pnl_data"
