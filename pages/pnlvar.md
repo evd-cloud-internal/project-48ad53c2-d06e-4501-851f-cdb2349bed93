@@ -7,23 +7,48 @@ type: page
 # VAR vs DoD
 
 ```sql pnl_data
+WITH 
+    date_spine AS (
+        SELECT arrayJoin(
+            arrayMap(x -> toDate('2025-04-01') + x, 
+            range(toUInt32(dateDiff('day', toDate('2025-04-01'), toDate('2026-02-14')))))
+        ) as date
+    ),
+    raw AS (
+        SELECT 
+            toDate(asofdate) as date,
+            "Power Dod YTD" as Ytd_pnL,
+            DoD as daily_pnl,
+            "VAR+1" as VAR
+        FROM var_vs_dodv2
+        WHERE "Power Dod YTD" != 0
+    ),
+    joined AS (
+        SELECT 
+            ds.date,
+            r.Ytd_pnL,
+            r.daily_pnl,
+            r.VAR
+        FROM date_spine ds
+        LEFT JOIN raw r ON ds.date = r.date
+    )
 SELECT 
-    toString(asofdate) as date,
-    "Power Dod YTD" as Ytd_pnL,
-    DoD as daily_pnl,
-    "VAR+1" as VAR
-FROM var_vs_dodv2
-WHERE "Power Dod YTD" != 0
-ORDER BY asofdate
+    date,
+    last_value(Ytd_pnL) IGNORE NULLS OVER (ORDER BY date) as Ytd_pnL,
+    daily_pnl,
+    last_value(VAR) IGNORE NULLS OVER (ORDER BY date) as VAR
+FROM joined
+ORDER BY date
 ```
 
 {% combo_chart
     data="pnl_data"
     x="date"
     x_sort="data"
-    title="VAR vs DoD PnL"
+    title="YTD Power PnL"
     subtitle="YTD PnL, VAR & DoD PnL"
     y_fmt="num0"
+    x_axis_options={max_interval="month" gridlines=false}
 %}
     {% line y="Ytd_pnL" /%}
     {% line y="VAR" options={color="#00CC66"} /%}
